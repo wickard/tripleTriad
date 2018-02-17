@@ -26,7 +26,7 @@ export function fetchUsers () {
 
 //REDUCER
 
-export default function channelsReducer (state = [], action){
+export default function usersReducer (state = [], action){
   switch (action.type){
     case GET_USERS:
       return action.users

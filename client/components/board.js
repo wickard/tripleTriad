@@ -1,19 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import Space from './space'
 
 function board(props){
-  console.log(props)
+  const spaces = [0, 1, 2, 3, 4, 5, 6, 7, 8]
   return (
         <div id="board">
-          <div id="1"><img src="images/cardback.png" /></div>
-          <div id="2">2</div>
-          <div id="3">3</div>
-          <div id="4">4</div>
-          <div id="5">5</div>
-          <div id="6">6</div>
-          <div id="7">7</div>
-          <div id="8">8</div>
-          <div id="9">9</div>
+          {
+            spaces.map(space => <Space owner={props.board[space].owner} key={space} idx={space} />)
+          }
         </div>
   )
 }
@@ -21,7 +16,8 @@ function board(props){
 function mapStateToProps(state){
   return {
     users: state.users,
-    cards: state.cards
+    cards: state.cards,
+    board: state.board
   }
 }
 

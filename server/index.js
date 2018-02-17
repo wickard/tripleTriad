@@ -44,15 +44,13 @@ app.use((err, req, res, next) =>
   res.status(err.status || 500).send(err.message || 'Internal server error.')
 );
 
-const userPromise = User.findOne({
-  where: {
-    id: 1
-  }
-})
+const userPromise = User.findAll()
 
 const cardPromise = Card.findAll()
 
 Promise.all([userPromise, cardPromise])
-.spread((user, cards) => {
-  user.addCards(cards)
+.spread((users, cards) => {
+  users.forEach(user => {
+    user.addCards(cards)
+  })
 })

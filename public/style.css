@@ -17,31 +17,26 @@
   text-align: center;
 }
 
-#card1 {
-  background: aquamarine;
+#card0 {
   position: absolute;
   top: 6em;
 }
 
-#card2 {
-  background: rgba(255, 0, 0, 0.74);
+#card1 {
   position: absolute;
   top: 12em;
 }
 
-#card3 {
-  background: orchid;
+#card2 {
   position: absolute;
   top: 18em;
 }
-#card4 {
-  background: black;
+#card3 {
   position: absolute;
   top: 24em;
 }
 
-#card5 {
-  background: blueviolet;
+#card4 {
   position: absolute;
   top: 30em;
 }
@@ -62,6 +57,25 @@
     z-index: 3;
   }
 
+  .selected{
+    z-index: 2;
+    transform: translateY(-2.0em);
+    -webkit-box-shadow: 7px -7px 29px 5px rgba(204,41,204,0.43);
+    -moz-box-shadow: 7px -7px 29px 5px rgba(204,41,204,0.43);
+    box-shadow: 7px -7px 29px 5px rgba(204,41,204,0.43);
+  }
+
+  div.red{
+    -webkit-box-shadow: -2px -1px 31px 9px rgba(240,96,149,1);
+    -moz-box-shadow: -2px -1px 31px 9px rgba(240,96,149,1);
+    box-shadow: -2px -1px 31px 9px rgba(240,96,149,1);
+  }
+
+  #blue{
+    -webkit-box-shadow: -2px -1px 31px 9px rgba(96,202,240,1);
+    -moz-box-shadow: -2px -1px 31px 9px rgba(96,202,240,1);
+    box-shadow: -2px -1px 31px 9px rgba(96,202,240,1);
+  }
 
 #board {
   margin: 0.5em;
@@ -73,7 +87,6 @@
 }
   #board div{
     display: flex;
-    background: gray;
     height: 210px;
     flex-basis: 30%;
     margin: 0.5em;
@@ -82,8 +95,8 @@
     #board div img{
       display: block;
       margin: auto;
-      height: 200px;
-      width: 150px;
+      height: 100%;
+      width: 100%;
     }
 
 

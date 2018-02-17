@@ -26,7 +26,7 @@ export function fetchCards () {
 
 //REDUCER
 
-export default function channelsReducer (state = [], action){
+export default function cardsReducer (state = [], action){
   switch (action.type){
     case GET_CARDS:
       return action.cards

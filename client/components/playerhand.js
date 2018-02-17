@@ -1,15 +1,48 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { selectCard, fetchUserHand } from '../store'
 
-export default function PlayerHand(props){
+function PlayerHand(props){
   return (
-    <div className="playerhand">
-        <h1 className="player"> Rant </h1>
-        <div id="card1" className="hand">1</div>
-        <div id="card2" className="hand">2</div>
-        <div id="card3" className="hand">3</div>
-        <div id="card4" className="hand">4</div>
-        <div id="card5" className="hand">5</div>
-    </div>
+      <div className="playerhand" >
+        <form onSubmit={props.setHand}>
+            <select name="player" className="form-control">
+            <option>Select Player</option>
+            {
+              props.players.length && props.players.map(player => <option key={player.id} value={player.id}>{player.name}</option> )
+            }
+            </select>
+            <button type="submit" className="btn btn-primary mb-2">Select Player</button>
+        </form>
+      {
+        props.hand.length && props.hand.map((card, idx) => <div onClick={() => props.select(card) } key={card.id} id={`card${idx}`} className={props.selected.id === card.id ? 'hand selected' : 'hand'}><img src={card.img} /></div>)
+      }
+      </div>
   )
 }
+
+function mapState(state){
+  return {
+    players: state.users,
+    selected: state.selected,
+    hand: state.playerHand
+  }
+}
+
+function mapDispatch(dispatch, ownProps){
+  return {
+    select(card){
+      dispatch(selectCard(card))
+    },
+    setHand(event){
+      event.preventDefault()
+      const id = event.target.player.value
+      dispatch(fetchUserHand(id))
+    }
+  }
+}
+
+const Container = connect(mapState, mapDispatch)(PlayerHand)
+
+export default Container
+

@@ -4,10 +4,20 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import thunkMiddleware from 'redux-thunk';
 import cards from './cards';
 import users from './users';
+import selected from './selected'
+import board from './board'
+import turn from './turn'
+import playerHand from './playerHand'
+import opponentHand from './opponentHand'
 
 const reducer = combineReducers({
   cards,
-  users
+  users,
+  selected,
+  board,
+  turn,
+  playerHand,
+  opponentHand
 })
 
 const store = createStore(
@@ -21,3 +31,8 @@ const store = createStore(
 export default store;
 export * from './users';
 export * from './cards';
+export * from './selected';
+export * from './board';
+export * from './turn';
+export * from './playerHand';
+export * from './opponentHand'
