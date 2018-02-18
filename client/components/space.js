@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import store, { addCardToBoard, toggleTurn, removePlayerCard, setPlayerHand, removeOpponentCard } from '../store'
+import store, { addCardToBoard, toggleTurn, removePlayerCard, setPlayerHand, removeOpponentCard, selectCard } from '../store'
 
 class Space extends Component{
   constructor(props){
@@ -8,24 +8,20 @@ class Space extends Component{
     this.state = {
       turn: 0,
       owner: null,
-      empty: true,
-      img: 'http://www.placecage.com/200/300'
+      empty: true
     }
     this.setCard = this.setCard.bind(this)
     this.addCardToBoard = this.props.addCardToBoard.bind(this)
   }
 
   setCard(card){
-    if (this.state.empty && this.props.selected.id){
-      this.setState({
-        img: card.img
-      })
-      this.addCardToBoard(this.props.idx, card, this.props.turn)
+    if (this.props.owner === undefined && this.props.selected.id){
+      this.addCardToBoard(this.props.idx, card, this.props.turn % 2 )
     }
   }
   render(){
     return (
-      <div className={this.props.owner === 0 && 'red'} id={this.props.owner === 1 && 'blue'} onClick={() => this.setCard(this.props.selected) }><img src={this.state.img} /></div>
+      <div className={this.props.owner === 0 && 'red'} id={this.props.owner === 1 && 'blue'} onClick={() => this.setCard(this.props.selected) }><img src={this.props.img} /></div>
     )
   }
 
@@ -41,13 +37,14 @@ const mapState = state => ({
 const mapProps = (dispatch, ownProps) => {
   return {
     addCardToBoard(idx, card, owner){
-      dispatch(addCardToBoard(idx, card.values, owner))
+      dispatch(addCardToBoard(idx, card, owner))
       if (!owner) {
         dispatch(removePlayerCard(card))
       }
       else {
         dispatch(removeOpponentCard(card))
       }
+      dispatch(selectCard({}))
       dispatch(toggleTurn())
       this.setState({
         empty: false,

@@ -78,6 +78,7 @@
   }
 
 #board {
+  position: relative;
   margin: 0.5em;
   flex: 3;
   border: 1px solid black;
@@ -86,7 +87,6 @@
   justify-content: center;
 }
   #board div{
-    display: flex;
     height: 210px;
     flex-basis: 30%;
     margin: 0.5em;
@@ -99,5 +99,13 @@
       width: 100%;
     }
 
+    #gameOver{
+      text-align: center;
+      color: aliceblue;
+      position: absolute;
+      background: rgba(85, 8, 85, 0.509);
+      width: 100%;
+      left: 0; top: 0; right: 0; bottom: 0;
+    }
 
 

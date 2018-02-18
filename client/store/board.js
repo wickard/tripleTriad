@@ -71,7 +71,7 @@ const check3 = (board, owner) => {
   }
   if (board[6].values){
     if (board[6].values[0] < board[3].values[2]){
-      board[2].owner = owner
+      board[6].owner = owner
     }
   }
 }
@@ -80,7 +80,7 @@ const check3 = (board, owner) => {
 const check4 = (board, owner) => {
   if (board[1].values){
     if (board[1].values[2] < board[4].values[0]){
-      board[0].owner = owner
+      board[1].owner = owner
     }
   }
   if (board[5].values){
@@ -90,7 +90,7 @@ const check4 = (board, owner) => {
   }
   if (board[7].values){
     if (board[7].values[0] < board[4].values[2]){
-      board[2].owner = owner
+      board[7].owner = owner
     }
   }
   if (board[3].values){
@@ -170,12 +170,17 @@ const check8 = (board, owner) => {
 
 ////ACTION TYPE
 const ADD_CARD_TO_BOARD = 'ADD_CARD_TO_BOARD'
-const UPDATE_OWNERS = 'UPDATE_OWNERS'
+const RESET_BOARD = 'RESET_BOARD'
 
 //ACTION CREATOR
 
-export function addCardToBoard(idx, cardVals, owner) {
-  const action = {type: ADD_CARD_TO_BOARD, cardVals, idx, owner}
+export function addCardToBoard(idx, card, owner) {
+  const action = {type: ADD_CARD_TO_BOARD, card, idx, owner}
+  return action
+}
+
+export function resetBoard(){
+  const action = {type: RESET_BOARD}
   return action
 }
 
@@ -183,9 +188,12 @@ export function addCardToBoard(idx, cardVals, owner) {
 
 export default function boardReducer (state = [{}, {}, {}, {}, {}, {}, {}, {}, {}], action){
   switch (action.type){
+    case RESET_BOARD:
+      return [{}, {}, {}, {}, {}, {}, {}, {}, {}]
     case ADD_CARD_TO_BOARD:{
       const newBoard = [...state]
-      newBoard[action.idx].values = action.cardVals
+      newBoard[action.idx].values = action.card.values
+      newBoard[action.idx].img = action.card.img
       newBoard[action.idx].owner = action.owner
       switch(action.idx){
         case 0:
@@ -215,7 +223,6 @@ export default function boardReducer (state = [{}, {}, {}, {}, {}, {}, {}, {}, {
         default:
           check8(newBoard, action.owner)
       }
-      console.log('after switch', newBoard)
       return newBoard
     }
     default:

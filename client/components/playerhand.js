@@ -15,7 +15,7 @@ function PlayerHand(props){
             <button type="submit" className="btn btn-primary mb-2">Select Player</button>
         </form>
       {
-        props.hand.length && props.hand.map((card, idx) => <div onClick={() => props.select(card) } key={card.id} id={`card${idx}`} className={props.selected.id === card.id ? 'hand selected' : 'hand'}><img src={card.img} /></div>)
+        props.hand.map((card, idx) => <div onClick={() => {props.turn % 2 === 0 && props.select(card) }} key={card.id} id={`card${idx}`} className={props.selected.id === card.id && props.turn % 2 === 0 ? 'hand selected' : 'hand'}><img src={card.img} /></div>)
       }
       </div>
   )
@@ -23,6 +23,7 @@ function PlayerHand(props){
 
 function mapState(state){
   return {
+    turn: state.turn,
     players: state.users,
     selected: state.selected,
     hand: state.playerHand

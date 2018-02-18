@@ -1,5 +1,6 @@
 ////ACTION TYPE
 const TOGGLE_TURN = 'TOGGLE_TURN'
+const RESET = 'RESET'
 
 //ACTION CREATOR
 
@@ -8,12 +9,19 @@ export function toggleTurn() {
   return action
 }
 
+export function resetTurn(){
+  const action = {type: RESET}
+  return action
+}
+
 //REDUCER
 
 export default function turnReducer (state = 0, action){
   switch (action.type){
     case TOGGLE_TURN:{
-      if (state === 0) return 1
+      return ++state
+    }
+    case RESET:{
       return 0
     }
     default:
