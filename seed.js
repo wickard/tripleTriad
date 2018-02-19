@@ -10,11 +10,18 @@ const users = [
 ]
 
 const cards = [
-  {name: 'card1', values: [7, 0, 7, 0]},
-  {name: 'card2', values: [3, 3, 3, 3]},
-  {name: 'card3', values: [0, 6, 0, 6]},
-  {name: 'card4', values: [2, 4, 2, 4]},
-  {name: 'card5', values: [5, 2, 3, 4]},
+  {name: 'Beast Master', values: [2, 1, 3, 4], img: 'images/beastmaster.jpg'},
+  {name: 'Bug Man', values: [2, 3, 2, 1], img: 'images/bugman.jpg' },
+  {name: 'Engineer', values: [6, 2, 5, 4], img: 'images/engi.jpg'},
+  {name: 'Nona', values: [6, 3, 4, 2], img: 'images/femWar.jpg'},
+  {name: 'Hamster Wing', values: [1, 5, 1, 5], img: 'images/hamster.jpg'},
+  {name: 'Octo-Girl', values: [7, 7, 7, 7], img: 'images/octoRainbow.jpg'},
+  {name: 'Captain Deathface', values: [9, 9, 9, 9], img: 'images/skellyFull.jpg'},
+  {name: 'The Champ', values: [5, 5, 3, 5], img: 'images/snowWar.jpg'},
+  {name: 'Snail Express', values: [3, 3, 3, 3], img: 'images/Snail_Epress.jpg'},
+  {name: 'Spoon Knight', values: [2, 1, 7, 4], img: 'images/spoonKnight.jpg'},
+  {name: 'Will of the Forest', values: [8, 2, 8, 2], img: 'images/translucentman.jpg'},
+  {name: 'The Wiz', values: [7, 1, 7, 2], img: 'images/octoRainbow.jpg'}
 ]
 
 const seed = () =>

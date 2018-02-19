@@ -7,6 +7,7 @@ const PORT = process.env.PORT || 8080;
 const app = express();
 const Promise = require('bluebird')
 const { User, Card } = require('./db/models')
+
 app.listen(PORT, () => console.log(`Server running ${PORT}`));
 
 module.exports = app;
@@ -48,9 +49,12 @@ const userPromise = User.findAll()
 
 const cardPromise = Card.findAll()
 
+//generate random index for adding random cards to users.
+
 Promise.all([userPromise, cardPromise])
 .spread((users, cards) => {
-  users.forEach(user => {
-    user.addCards(cards)
+  users.forEach((user, idx) => {
+    user.addCards([cards[(idx + 1) % 12], cards[(idx + 2) % 12], cards[(idx + 3) % 12], cards[(idx + 4) % 12], cards[(idx + 5) % 12]])
   })
 })
+
