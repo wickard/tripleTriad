@@ -4,7 +4,6 @@ import { selectCard, fetchUserHand, changePlayer } from '../store'
 import { fireDb } from '../firebase';
 
 function PlayerHand(props){
-  console.log('player from hand', props.player)
   return (
       <div className="playerhand" >
         <form onSubmit={props.setHand}>

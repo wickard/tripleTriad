@@ -41,8 +41,6 @@ class board extends Component{
       if (this.props.board[i].owner === 0) player++
     }
   }
-  console.log('turn,', this.state.turn)
-  console.log(this.state.board)
   return (
         <div id="board">
           {
@@ -75,17 +73,12 @@ const mapDispatch = dispatch => ({
   reset(){
     dispatch(resetTurn())
     dispatch(setPlayerHand([]))
-    dispatch(setOpponentHand([]))
     dispatch(resetBoard())
     fireDb.ref('turn').set(0)
     fireDb.ref('player').set(0)
   }
 })
 
-//
-// this.setState({
-//   board: []
-// })
 const Container = connect(mapStateToProps, mapDispatch)(board)
 
 export default Container

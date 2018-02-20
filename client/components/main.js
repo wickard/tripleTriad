@@ -22,7 +22,6 @@ class Main extends Component {
     fireDb.ref('player').once('value', snap => {
       player = snap.val()
     })
-    console.log('player', player)
     return (
       <div id="container">
         <PlayerHand player={this.props.player} />

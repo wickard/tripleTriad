@@ -25,7 +25,7 @@ const check0 = (board, owner) => {
 
 // 1 --> 1L VS 0R && 1R VS 2L && 1B VS 4T
 const check1 = (board, owner) => {
-  console.log(board[1].values)
+  (board[1].values)
   if (board[0].values){
     if (board[0].values[1] < board[1].values[3]){
       board[0].owner = owner
@@ -127,7 +127,7 @@ const check6 = (board, owner) => {
     }
   }
   if (board[7].values){
-    if (board[7].values[3] < board[0].values[2]){
+    if (board[7].values[3] < board[6].values[1]){
       board[7].owner = owner
     }
   }
