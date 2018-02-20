@@ -1,33 +1,59 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Space from './space'
-import { resetTurn, setPlayerHand, setOpponentHand, resetBoard } from '../store';
+import { resetTurn, setPlayerHand, setOpponentHand, resetBoard, load, toggleTurn, setTurn } from '../store';
 import { fireDb } from '../firebase';
 
-function board(props){
-  if (props.turn === 9){
+class board extends Component{
+
+  constructor(props){
+    super(props)
+    this.state = {
+      board: [],
+      turn: 0
+    }
+    this.reset = this.props.reset.bind(this)
+  }
+  componentDidMount(){
+    fireDb.ref('turn').on('value', snap =>{
+      this.props.nextTurn(snap.val())
+      this.setState({
+        turn: snap.val()
+      })
+    })
+    fireDb.ref('board').on('value', snap => {
+      const newboard = snap.val()
+      const arr = [{}, {}, {}, {}, {}, {}, {}, {}, {}]
+      for (let i in newboard) {
+        arr[i] = newboard[i]
+      }
+      this.props.loadBoard(arr)
+      this.setState({
+        board: arr
+      })
+    })
+  }
+
+  render(){
+  if (this.props.turn === 9){
     var player = 0
-    for (let i = 0; i < props.board.length; i++){
-      if (props.board[i].owner === 0) player++
+    for (let i = 0; i < this.props.board.length; i++){
+      if (this.props.board[i].owner === 0) player++
     }
   }
-//   props.board.forEach((space, idx) =>{
-//     fireDb.ref('position/' + idx).set(props.board[idx])
-//   })
-//   const thing = fireDb.ref('position').on('value', (snapshot) => {
-//     console.log(sna)
-//   })
-// console.log(thing)
+  console.log('turn,', this.state.turn)
+  console.log(this.state.board)
   return (
         <div id="board">
           {
-            props.board.map((space, n) => <Space img={props.board[n].img ? props.board[n].img : 'https://thumbs.dreamstime.com/t/wood-metallic-texture-background-rustic-banner-blue-tones-51204566.jpg'} owner={props.board[n].owner} key={n} idx={n} />)
+            this.state.board.map((space, n) => <Space img={this.state.board[n].img ? this.state.board[n].img : 'https://thumbs.dreamstime.com/t/wood-metallic-texture-background-rustic-banner-blue-tones-51204566.jpg'} owner={this.state.board[n].owner} key={n} idx={n} />)
           }
           {
-            props.turn === 9 && <banner id="gameOver"><h1>{player > 4 ? 'Player 1 wins!' : 'Player 2 wins!'}</h1> <button onClick={props.reset} className="btn btn-secondary btn-block">Play Again!</button></banner>
+            this.state.turn === 9 && <banner id="gameOver"><h1>{player > 4 ? 'Player 1 wins!' : 'Player 2 wins!'}</h1> <button onClick={this.props.reset} className="btn btn-secondary btn-block">Play Again!</button></banner>
           }
         </div>
   )
+}
 }
 
 function mapStateToProps(state){
@@ -40,15 +66,26 @@ function mapStateToProps(state){
 }
 
 const mapDispatch = dispatch => ({
+  nextTurn(turn){
+    dispatch(setTurn(turn))
+  },
+  loadBoard(sharedboard){
+    dispatch(load(sharedboard))
+  },
   reset(){
     dispatch(resetTurn())
     dispatch(setPlayerHand([]))
     dispatch(setOpponentHand([]))
     dispatch(resetBoard())
+    fireDb.ref('turn').set(0)
+    fireDb.ref('player').set(0)
   }
 })
 
-
+//
+// this.setState({
+//   board: []
+// })
 const Container = connect(mapStateToProps, mapDispatch)(board)
 
 export default Container

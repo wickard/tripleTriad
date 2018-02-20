@@ -1,8 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { selectCard, fetchUserHand } from '../store'
+import { selectCard, fetchUserHand, changePlayer } from '../store'
+import { fireDb } from '../firebase';
 
 function PlayerHand(props){
+  console.log('player from hand', props.player)
   return (
       <div className="playerhand" >
         <form onSubmit={props.setHand}>
@@ -15,7 +17,7 @@ function PlayerHand(props){
             <button type="submit" className="btn btn-primary mb-2">Select Player</button>
         </form>
       {
-        props.hand.map((card, idx) => <div onClick={() => {props.turn % 2 === 0 && props.select(card) }} key={card.id} id={`card${idx}`} className={props.selected.id === card.id && props.turn % 2 === 0 ? 'hand selected' : 'hand'}><img src={card.img} /></div>)
+        props.hand.map((card, idx) => <div onClick={() => {props.turn % 2 === props.player && props.select(card) }} key={card.id} id={`card${idx}`} className={props.selected.id === card.id && props.turn % 2 === props.player ? 'hand selected' : 'hand'}><img src={card.img} /></div>)
       }
       </div>
   )
@@ -39,6 +41,7 @@ function mapDispatch(dispatch, ownProps){
       event.preventDefault()
       const id = event.target.player.value
       dispatch(fetchUserHand(id))
+      fireDb.ref('player').set(1)
     }
   }
 }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import store, { addCardToBoard, toggleTurn, removePlayerCard, setPlayerHand, removeOpponentCard, selectCard } from '../store'
+import store, { addCardToBoard, nextTurn, removePlayerCard, setPlayerHand, removeOpponentCard, selectCard, toggleTurn } from '../store'
+import { fireDb } from '../firebase'
 
 class Space extends Component{
   constructor(props){
@@ -14,9 +15,17 @@ class Space extends Component{
     this.addCardToBoard = this.props.addCardToBoard.bind(this)
   }
 
+  componentDidMount(){
+    fireDb.ref('turn').on('value', snap =>{
+      this.setState({
+        turn: snap.val()
+      })
+    })
+  }
+
   setCard(card){
     if (this.props.owner === undefined && this.props.selected.id){
-      this.addCardToBoard(this.props.idx, card, this.props.turn % 2 )
+      this.addCardToBoard(this.props.idx, card, this.state.turn % 2, this.state.turn )
     }
   }
   render(){
@@ -36,16 +45,12 @@ const mapState = state => ({
 
 const mapProps = (dispatch, ownProps) => {
   return {
-    addCardToBoard(idx, card, owner){
+    addCardToBoard(idx, card, owner, turn){
       dispatch(addCardToBoard(idx, card, owner))
-      if (!owner) {
-        dispatch(removePlayerCard(card))
-      }
-      else {
-        dispatch(removeOpponentCard(card))
-      }
+      dispatch(removePlayerCard(card))
       dispatch(selectCard({}))
       dispatch(toggleTurn())
+      fireDb.ref('turn').set(++turn)
       this.setState({
         empty: false,
         owner

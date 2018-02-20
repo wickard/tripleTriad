@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { selectCard, fetchOppHand } from '../store'
+import { fireDb } from '../firebase'
 
 function PlayerHand(props){
   return (
@@ -39,6 +40,7 @@ function mapDispatch(dispatch, ownProps){
       event.preventDefault()
       const id = event.target.player.value
       dispatch(fetchOppHand(id))
+      fireDb.ref('player').set(0)
     }
   }
 }

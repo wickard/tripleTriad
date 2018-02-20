@@ -1,3 +1,4 @@
+import { fireDb } from '../firebase'
 /// game logic ////
 /*
 
@@ -27,7 +28,6 @@ const check1 = (board, owner) => {
   console.log(board[1].values)
   if (board[0].values){
     if (board[0].values[1] < board[1].values[3]){
-      console.log('hitting fnc')
       board[0].owner = owner
     }
   }
@@ -171,11 +171,17 @@ const check8 = (board, owner) => {
 ////ACTION TYPE
 const ADD_CARD_TO_BOARD = 'ADD_CARD_TO_BOARD'
 const RESET_BOARD = 'RESET_BOARD'
+const LOAD = 'LOAD'
 
 //ACTION CREATOR
 
 export function addCardToBoard(idx, card, owner) {
   const action = {type: ADD_CARD_TO_BOARD, card, idx, owner}
+  return action
+}
+
+export function load(board){
+  const action = {type: LOAD, board}
   return action
 }
 
@@ -188,7 +194,10 @@ export function resetBoard(){
 
 export default function boardReducer (state = [{}, {}, {}, {}, {}, {}, {}, {}, {}], action){
   switch (action.type){
+    case LOAD:
+      return action.board
     case RESET_BOARD:
+      fireDb.ref('board').set({})
       return [{}, {}, {}, {}, {}, {}, {}, {}, {}]
     case ADD_CARD_TO_BOARD:{
       const newBoard = [...state]
@@ -223,6 +232,7 @@ export default function boardReducer (state = [{}, {}, {}, {}, {}, {}, {}, {}, {
         default:
           check8(newBoard, action.owner)
       }
+      fireDb.ref('board').update(newBoard)
       return newBoard
     }
     default:

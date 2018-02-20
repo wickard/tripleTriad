@@ -9,6 +9,7 @@ import board from './board'
 import turn from './turn'
 import playerHand from './playerHand'
 import opponentHand from './opponentHand'
+import player from './player'
 
 const reducer = combineReducers({
   cards,
@@ -17,7 +18,8 @@ const reducer = combineReducers({
   board,
   turn,
   playerHand,
-  opponentHand
+  opponentHand,
+  player
 })
 
 const store = createStore(
@@ -36,3 +38,4 @@ export * from './board';
 export * from './turn';
 export * from './playerHand';
 export * from './opponentHand'
+export * from './player'
